@@ -2,94 +2,125 @@
 #include <cstdlib>  //nos sirve para invocar el comando de limpiar pantalla
 using namespace std;    // para evitarnos escribir std:: en todas las lineas
 int tab[7][6] = {0};
-
+int jugador;
 void tablero();         //funcion para mostrar el tablero
 void DosJugadores();    //funcion para jugar con dos jugadores
 void PC();              //funcion para jugar contra la pc
-void instrucciones();   //funcion para mostrar las instrucciones 
-void cleanscreen(); //nos sirve para limpiar la pantalla y actualizar el tablero en cada turno 
+void instrucciones();   //funcion para mostrar las instrucciones
+void cleanscreen();     //nos sirve para limpiar la pantalla y actualizar el tablero en cada turno
+void juego();           //esta funcion agrupa la logica del juego
 
 int main()
 {
-    int opcion;     //declaramos la variable opcion
-    do      //iniciamos un bucle para que el juego continue a menos que le digamos que pare 
-    {
-    std::cout<<"JUEGO CONECTA 4"<<endl;
-    tablero();
-    std::cout<<"Opciones de Juego:"<<endl; 
-    std::cout<<"1.- 2 Jugadores"<<endl;
-    std::cout<<"2.- 1 Jugador VS PC:"<<endl;
-    std::cout<<"3.- Ver las instrucciones del Juego"<<endl;
-    std::cout<<"Elja la opción deseada:"<<endl;
-    std::cin >> opcion;     //leemos la variable opcion del usuario
-    
-    switch (opcion)         // abrimos un switch para establecer las acciones segun la entrada
+	int opcion;     //declaramos la variable opcion
+	do      //iniciamos un bucle para que el juego continue a menos que le digamos que pare
+	{
+		std::cout<<"JUEGO CONECTA 4"<<endl;
+		tablero();
+		std::cout<<"Opciones de Juego:"<<endl;
+		std::cout<<"1.- 2 Jugadores"<<endl;
+		std::cout<<"2.- 1 Jugador VS PC:"<<endl;
+		std::cout<<"3.- Ver las instrucciones del Juego"<<endl;
+		std::cout<<"4.- Salir del Juego"<<endl;
+		std::cout<<"Elja la opcion deseada:"<<endl;
+		std::cin >> opcion;     //leemos la variable opcion del usuario
+
+		switch (opcion)         // abrimos un switch para establecer las acciones segun la entrada
+		{
+		case 1:
+			DosJugadores();
+			break;
+		case 2:
+			PC();
+			break;
+		case 3:
+			cleanscreen();
+			instrucciones();
+			break;
+		case 4:
+			std::cout << "¡Gracias por jugar!" << endl;
+			break;
+		default:
+			std::cout << "Ingrese una opcion Valida" << endl;
+		}
+	}
+	while (opcion != 4);
+	return 0;
+}
+void tablero()
 {
-        case 1:
-    DosJugadores();
-    break;
-       case 2:
-    PC();
-    break;
-        case 3:
-    instrucciones();
-    cleanscreen();
-    break;
-        case 4:
-     std::cout << "¡Gracias por jugar!" << endl;
-    break;
-    default:
-    std::cout << "Ingrese una opción Valida" << endl;
-}
-} 
-while (opcion != 4); 
-    return 0;
-}
-    void tablero()
-    {
 	std::cout<<"   Casillas:" << endl;
 
 	for (int f = 0; f < 6; ++f)
 	{
 		for (int c = 0; c < 7; ++c)
 		{
-		    if (tab [c][f] == 0){
-            	cout << " " << "*";
-}           else if (tab [c][f] == 1){
-            	cout << " " << "X";    
-}           else 
-            	cout << " " << "O";    
-}
-	cout << endl;
-}
+			if (tab [c][f] == 0) {
+				cout << " " << "*";
+			}           else if (tab [c][f] == 1) {
+				cout << " " << "X";
+			}           else
+				cout << " " << "O";
+		}
+		cout << endl;
+	}
 	cout << "---------------" << endl;
 	cout << " 1 2 3 4 5 6 7" << endl;
 }
 
 void DosJugadores()
-   {
-    std::cout << "Jugador 1 VS Jugador 2" << endl;
+{
+	std::cout << "Jugador 1 VS Jugador 2" << endl;
 }
 
-    void PC()
+void PC()
 {
-  std::cout << "Jugador VS PC" << endl;
+	std::cout << "Jugador VS PC" << endl;
 }
 
 void instrucciones()
 {
-   std::cout << "INSTRUCCIONES DEL JUEGO" << endl;
-    std::cout << "Este juego tiene 2 modos: jugar dos personas o jugar contra la pc," << endl;
-    std::cout << "en el caso de que jueguen dos personas, al jugador 1 se le asignara" << endl;
-    std::cout << "la ficha X, al jugador 2 la Ficha O" << endl;
-        std::cout << "El objetivo del juego es conectar 4 fichas consecutivas, " << endl;
-        std::cout << "Ya sea en horizontal, vertical o diagonal, gana el primer " << endl;
-        std::cout << "jugador en conectar 4 fichas." << endl;
-        std::cout << "¿Como deseas jugar? " << endl;
-    std::cout << endl; 
-
+	std::cout << "INSTRUCCIONES DEL JUEGO" << endl;
+	std::cout << "Este juego tiene 2 modos: jugar dos personas o jugar contra la pc," << endl;
+	std::cout << "en el caso de que jueguen dos personas, al jugador 1 se le asignara" << endl;
+	std::cout << "la ficha X, al jugador 2 la Ficha O" << endl;
+	std::cout << "El objetivo del juego es conectar 4 fichas consecutivas, " << endl;
+	std::cout << "Ya sea en horizontal, vertical o diagonal, gana el primer " << endl;
+	std::cout << "jugador en conectar 4 fichas." << endl;
+	std::cout << "¿Como deseas jugar? " << endl;
+	std::cout << endl;
+}
 void cleanscreen()
-    #ifdef _WIN32
-    system("cls");
-    Else
+{
+#ifdef _WIN32
+	system("cls");
+#else
+	system ("clear");
+#endif
+}
+void juego()
+{
+	int c;
+	bool juegovalido = false;
+	while (!juegovalido)
+	{
+		cout << "Jugador" << jugador << " (" << (jugador == 1 ? 'X' : 'O') << ")" << ", Elige una columna del 1 al 7:";
+		cin >> c;
+		if (cin.fail() || c < 1 || c >7) { //buscamos que sea un numero del 1 al 7
+			cin.clear();
+			cin.ignore(10000, '\n'); //limpia lo ingresado
+			cout << "Ingrese un numero valido" << endl;
+			continue;
+		}
+		for (int f = 5; f >=0; --f) {     //recorre las filas de anajo a arriba
+			if (tab[c - 1][f] == 0) {               //revisa si la casilla esta vacia (si tiene 0 esta sika)
+				tab[c - 1][f] = jugador;             //pone la ficha en la primera posicion sola desde abajo
+				juegovalido = true;                      //si se puede jugar, es valido
+				break;
+
+			}
+		}
+		if (!juegovalido)
+			cout << "La columna esta llena, elige otra distinta";
+	}
 }
