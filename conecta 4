@@ -1,17 +1,18 @@
-#include <iostream>
-
-using namespace std;
+#include <iostream> //para interactuar con cin y cout
+#include <cstdlib>  //nos sirve para invocar el comando de limpiar pantalla
+using namespace std;    // para evitarnos escribir std:: en todas las lineas
 int tab[7][6] = {0};
 
-void tablero(); 
-void DosJugadores();
-void PC();
-void instrucciones(); 
+void tablero();         //funcion para mostrar el tablero
+void DosJugadores();    //funcion para jugar con dos jugadores
+void PC();              //funcion para jugar contra la pc
+void instrucciones();   //funcion para mostrar las instrucciones 
+void cleanscreen(); //nos sirve para limpiar la pantalla y actualizar el tablero en cada turno 
 
 int main()
 {
-    int opcion;
-    do
+    int opcion;     //declaramos la variable opcion
+    do      //iniciamos un bucle para que el juego continue a menos que le digamos que pare 
     {
     std::cout<<"JUEGO CONECTA 4"<<endl;
     tablero();
@@ -20,9 +21,9 @@ int main()
     std::cout<<"2.- 1 Jugador VS PC:"<<endl;
     std::cout<<"3.- Ver las instrucciones del Juego"<<endl;
     std::cout<<"Elja la opción deseada:"<<endl;
-    std::cin >> opcion;
+    std::cin >> opcion;     //leemos la variable opcion del usuario
     
-    switch (opcion)
+    switch (opcion)         // abrimos un switch para establecer las acciones segun la entrada
 {
         case 1:
     DosJugadores();
@@ -32,6 +33,7 @@ int main()
     break;
         case 3:
     instrucciones();
+    cleanscreen();
     break;
         case 4:
      std::cout << "¡Gracias por jugar!" << endl;
@@ -86,5 +88,8 @@ void instrucciones()
         std::cout << "¿Como deseas jugar? " << endl;
     std::cout << endl; 
 
-    
+void cleanscreen()
+    #ifdef _WIN32
+    system("cls");
+    Else
 }
