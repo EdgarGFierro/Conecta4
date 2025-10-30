@@ -1,0 +1,90 @@
+#include <iostream>
+
+using namespace std;
+int tab[7][6] = {0};
+
+void tablero(); 
+void DosJugadores();
+void PC();
+void instrucciones(); 
+
+int main()
+{
+    int opcion;
+    do
+    {
+    std::cout<<"JUEGO CONECTA 4"<<endl;
+    tablero();
+    std::cout<<"Opciones de Juego:"<<endl; 
+    std::cout<<"1.- 2 Jugadores"<<endl;
+    std::cout<<"2.- 1 Jugador VS PC:"<<endl;
+    std::cout<<"3.- Ver las instrucciones del Juego"<<endl;
+    std::cout<<"Elja la opción deseada:"<<endl;
+    std::cin >> opcion;
+    
+    switch (opcion)
+{
+        case 1:
+    DosJugadores();
+    break;
+       case 2:
+    PC();
+    break;
+        case 3:
+    instrucciones();
+    break;
+        case 4:
+     std::cout << "¡Gracias por jugar!" << endl;
+    break;
+    default:
+    std::cout << "Ingrese una opción Valida" << endl;
+}
+} 
+while (opcion != 4); 
+    return 0;
+}
+    void tablero()
+    {
+	std::cout<<"   Casillas:" << endl;
+
+	for (int f = 0; f < 6; ++f)
+	{
+		for (int c = 0; c < 7; ++c)
+		{
+		    if (tab [c][f] == 0){
+            	cout << " " << "*";
+}           else if (tab [c][f] == 1){
+            	cout << " " << "X";    
+}           else 
+            	cout << " " << "O";    
+}
+	cout << endl;
+}
+	cout << "---------------" << endl;
+	cout << " 1 2 3 4 5 6 7" << endl;
+}
+
+void DosJugadores()
+   {
+    std::cout << "Jugador 1 VS Jugador 2" << endl;
+}
+
+    void PC()
+{
+  std::cout << "Jugador VS PC" << endl;
+}
+
+void instrucciones()
+{
+   std::cout << "INSTRUCCIONES DEL JUEGO" << endl;
+    std::cout << "Este juego tiene 2 modos: jugar dos personas o jugar contra la pc," << endl;
+    std::cout << "en el caso de que jueguen dos personas, al jugador 1 se le asignara" << endl;
+    std::cout << "la ficha X, al jugador 2 la Ficha O" << endl;
+        std::cout << "El objetivo del juego es conectar 4 fichas consecutivas, " << endl;
+        std::cout << "Ya sea en horizontal, vertical o diagonal, gana el primer " << endl;
+        std::cout << "jugador en conectar 4 fichas." << endl;
+        std::cout << "¿Como deseas jugar? " << endl;
+    std::cout << endl; 
+
+    
+}
