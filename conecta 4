@@ -1,6 +1,8 @@
 #include <iostream> //para interactuar con cin y cout
 #include <cstdlib>  //nos sirve para invocar el comando de limpiar pantalla
+#include <conio.h>  //nos permite leer cualquier tecla
 using namespace std;    // para evitarnos escribir std:: en todas las lineas
+
 int tab[7][6] = {0};
 int jugador;
 void tablero();         //funcion para mostrar el tablero
@@ -9,7 +11,8 @@ void PC();              //funcion para jugar contra la pc
 void instrucciones();   //funcion para mostrar las instrucciones
 void cleanscreen();     //nos sirve para limpiar la pantalla y actualizar el tablero en cada turno
 void juego();           //esta funcion agrupa la logica del juego
-void ganador();            //esta funcion revisa si alguien gana
+int ganador();            //esta funcion revisa si alguien gana
+bool empate();            //nos revisa si las casillas estan llenas y no hay ganador
 
 int main()
 {
@@ -78,19 +81,35 @@ void DosJugadores()
         }
     }
     jugador = 1; //le decimos quien empieza
+    int estado = 0; // declaramos la variable que revisa si hay ganador 0 = aun no, 1; gano el jugador 1, 2; gano el jugador 2
 	std::cout << "Jugador 1 VS Jugador 2" << endl;
-	while (true)   //aqui comenzamos el bucle, le va a seguir hasta que le indiquemos que no 
+	while (estado == 0)   //aqui comenzamos el bucle, le va a seguir hasta que le indiquemos que no 
 {
     cleanscreen(); //limpiamos la pantalla
 	tablero();      //mostramos el tablero actual
 	juego();        //para la entrada del jugador
-	if (jugador == 1) {
+	estado = ganador();    //revisamos si hay ganador
+	if (estado == 0) //le damos instrucciones en caso de que el juego continue
+}
+{
+	    if (jugador == 1){
 	    jugador = 2;
 	}   else {
 	    jugador = 1;
 	    //con esto alternamos, si era el turno del 1 cambia al dos y viceversa
 	}
 	}
+	cleanscreen();
+	tablero();      //vamos a mostrar el tablero final
+    cout << "Ha ganado el jugador " << estado <<endl;
+    
+    cout << "Presione una tecla para volver al menu " << endl;
+    cin.ignore(10000, '\n');
+    #ifdef _WIN32
+        _getch(); // Espera cualquier tecla en w
+    #else
+        system("read -n 1 -s"); // Espera cualquier tecla en linux
+    #endif
 }
 
 void PC()
@@ -135,7 +154,7 @@ void juego()
 		for (int f = 5; f >=0; --f) {     //recorre las filas de anajo a arriba
 			if (tab[c - 1][f] == 0) {               //revisa si la casilla esta vacia (si tiene 0 esta sika)
 				tab[c - 1][f] = jugador;             //pone la ficha en la primera posicion sola desde abajo
-				juegovalido = true;                      //si se puede jugar, es valido
+				juegovalido = true;                  //si se puede jugar, es valido
 				break;
 
 			}
@@ -144,7 +163,58 @@ void juego()
 			cout << "La columna esta llena, elige otra distinta";
 	}
 }
-void ganador()
-{
-    
-}
+int ganador()       
+{       //revisamos todas las celdas 
+    for (int c = 0; c < 7; ++c)
+    { 
+        for (int f = 0; f < 6; ++f)
+        { 
+            int turno = tab[c][f]; //nos dira quien es el jugador en turno
+                if (turno == 0){    //si la celda esta vacia o en 0 no puede iniciar las 4 en raya
+                    continue; 
+                }
+                if (c <= 3) //aseguramos no irnos mas aya del tablero
+               //revisamos horizontalmente
+                {
+                    if (tab[c+1][f] == turno &&
+                    tab[c+2][f] == turno &&
+                    tab[c+3][f] == turno)
+                    { 
+                        return turno; //ya tenemos ganador
+                    }
+                    }  
+                                  if (f <= 2) //aseguramos no irnos mas aya del tablero
+               //revisamos Verticalmente
+                {
+                    if (tab[c][f+1] == turno &&
+                    tab[c][f+2] == turno &&
+                    tab[c][f+3] == turno)
+                    { 
+                        return turno; //ya tenemos ganador 
+                    }
+                }
+                                if (c <= 3 && f <= 2) //aseguramos no irnos mas aya del tablero
+               //revisamos diagonal 1
+                {
+                    if (tab[c+1][f+1] == turno &&
+                    tab[c+2][f+2] == turno &&
+                    tab[c+3][f+3] == turno)
+                    { 
+                        return turno; //ya tenemos ganador 
+                    }
+                }
+                                if (c <= 3 && f >= 3) //aseguramos no irnos mas aya del tablero
+               //revisamos diagonal 2
+                {
+                    if (tab[c+1][f-1] == turno &&
+                    tab[c+2][f-2] == turno &&
+                    tab[c+3][f-3] == turno)
+                    { 
+                        return turno; //ya tenemos ganador 
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+   } 
