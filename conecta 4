@@ -9,6 +9,7 @@ void PC();              //funcion para jugar contra la pc
 void instrucciones();   //funcion para mostrar las instrucciones
 void cleanscreen();     //nos sirve para limpiar la pantalla y actualizar el tablero en cada turno
 void juego();           //esta funcion agrupa la logica del juego
+void ganador();            //esta funcion revisa si alguien gana
 
 int main()
 {
@@ -29,6 +30,7 @@ int main()
 		{
 		case 1:
 			DosJugadores();
+
 			break;
 		case 2:
 			PC();
@@ -69,8 +71,26 @@ void tablero()
 }
 
 void DosJugadores()
-{
+{    //tenemos que resetear el tab
+    for(int c= 0; c<7; ++c){
+        for(int f=0;f<6; ++f) {
+            tab[c][f] = 0;
+        }
+    }
+    jugador = 1; //le decimos quien empieza
 	std::cout << "Jugador 1 VS Jugador 2" << endl;
+	while (true)   //aqui comenzamos el bucle, le va a seguir hasta que le indiquemos que no 
+{
+    cleanscreen(); //limpiamos la pantalla
+	tablero();      //mostramos el tablero actual
+	juego();        //para la entrada del jugador
+	if (jugador == 1) {
+	    jugador = 2;
+	}   else {
+	    jugador = 1;
+	    //con esto alternamos, si era el turno del 1 cambia al dos y viceversa
+	}
+	}
 }
 
 void PC()
@@ -123,4 +143,8 @@ void juego()
 		if (!juegovalido)
 			cout << "La columna esta llena, elige otra distinta";
 	}
+}
+void ganador()
+{
+    
 }
