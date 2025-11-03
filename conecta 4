@@ -94,7 +94,6 @@ void DosJugadores()
 	estado = ganador();    //revisamos si hay ganador
 
 	if (estado == 0 && empate()){       //le damos instrucciones en caso de que el juego continue o sea empate
-{
      cleanscreen();
     tablero();
         cout << "Tenemos un empate, vuelve a jugar o echense un volado" << endl;
@@ -107,7 +106,6 @@ void DosJugadores()
     #endif
     cleanscreen();
     break; // salir del bucle
-}
 }
 	    if (jugador == 1){
 	    jugador = 2;
